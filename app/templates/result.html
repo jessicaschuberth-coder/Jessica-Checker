@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ergebnis - ISIN-Handelbarkeit</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Ergebnis</h1>
+    <p><strong>Gesamt:</strong> {{ total }} &middot; <strong>Handelbar:</strong> {{ tradable }} &middot; <strong>Nicht handelbar:</strong> {{ not_tradable }}</p>
+    <table>
+      <thead>
+        <tr>
+          <th>ISIN</th>
+          <th>Verwahrart</th>
+          <th>Handelbar</th>
+          <th>Gefundene Ziel-Handelsplätze</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in results %}
+        <tr class="{{ 'ok' if r.tradable else 'nok' }}">
+          <td>{{ r.isin }}</td>
+          <td>{{ r.custody }}</td>
+          <td>{{ 'Ja' if r.tradable else 'Nein' }}</td>
+          <td>
+            {% if r.matched_markets %}
+              <ul>
+                {% for m in r.matched_markets %}
+                  <li><strong>{{ m.market }}</strong> – Bid: {{ m.bid or '—' }}, Ask: {{ m.ask or '—' }}, Zeit: {{ m.time or '—' }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              —
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p><a href="/">Neue Prüfung</a></p>
+  </div>
+</body>
+</html>

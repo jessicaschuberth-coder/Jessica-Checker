@@ -1,0 +1,26 @@
+
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ISIN-Handelbarkeit-Checker (comdirect)</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>ISIN-Handelbarkeit-Checker (comdirect)</h1>
+    <p>Excel hochladen (Spalte <strong>B=ISIN</strong>, <strong>F=Verwahrart</strong>) und per Klick prüfen.</p>
+    <form action="/check" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".xlsx" required />
+      <button type="submit">Prüfung starten</button>
+    </form>
+    <hr>
+    <h3>Direkt Export (CSV):</h3>
+    <form action="/export" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".xlsx" required />
+      <button type="submit">CSV erzeugen</button>
+    </form>
+  </div>
+</body>
+</html>
