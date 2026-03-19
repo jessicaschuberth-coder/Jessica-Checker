@@ -36,28 +36,10 @@ async def fetch_instrument_html(isin: str) -> Optional[str]:
                 continue
     return None
 
+
 async def fetch_with_playwright(isin: str) -> Optional[str]:
-    try:
-        from playwright.async_api import async_playwright
-    except Exception:
-        return None
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        context = await browser.new_context(user_agent=HEADERS['User-Agent'], locale='de-DE')
-        page = await context.new_page()
-        for tmpl in BASES:
-            url = tmpl.format(isin=isin)
-            try:
-                await page.goto(url, timeout=REQUEST_TIMEOUT*1000)
-                await page.wait_for_timeout(1000)
-                html = await page.content()
-                if 'comdirect' in html.lower():
-                    await browser.close()
-                    return html
-            except Exception:
-                continue
-        await browser.close()
-        return None
+    return None
+
 
 async def get_markets_for_isin(isin: str) -> List[Dict]:
     html = await fetch_instrument_html(isin)
